@@ -22,7 +22,7 @@ body {
 }
 
 .product-image {
-    
+
     flex: 1;
 }
 
@@ -36,7 +36,7 @@ body {
     flex: 1;
     padding-top: 90px;
     padding-bottom: 90px;
-    
+
 }
 
 h1 {
@@ -85,10 +85,11 @@ h1 {
     font-size: 14px;
     color: var(--light-text-color);
 }
+
 .detail-value {
     font-size: 16px;
     font-weight: bold;
-    
+
 }
 
 .product-options h3 {
@@ -100,7 +101,7 @@ h1 {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
-    
+
 }
 
 .color-option {
@@ -120,20 +121,22 @@ h1 {
     border: 1px solid var(--border-color);
     border-radius: 3px;
     background-color: transparent;
-    color: var(--light-text-color) ;
+    color: var(--light-text-color);
     cursor: pointer;
 }
-.size-value{
+
+.size-value {
     color: var(--text-color);
     font-weight: 700;
 }
 
 .size-option.active .size-value {
-    color:var(--primary-color);
-    
+    color: var(--primary-color);
+
 }
-.size-option.active  {
-    border-color:var(--primary-color);
+
+.size-option.active {
+    border-color: var(--primary-color);
 }
 
 .product-actions {
@@ -180,10 +183,10 @@ h1 {
 .wishlist-btn {
     padding: 10px;
     background-color: transparent;
-   
-    
+
+
     color: var(--primary-color);
-    border:none;
+    border: none;
     cursor: pointer;
     font-size: 2em;
 }
@@ -195,7 +198,6 @@ h1 {
 }
 
 .checkout-btn {
-    
     padding: 10px 20px;
     background-color: #ffa500;
     color: white;
@@ -209,3 +211,5 @@ h1 {
         flex-direction: column;
     }
 }
+
+/* edited */
