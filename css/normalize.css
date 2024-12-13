@@ -1,0 +1,34 @@
+/* Correct the line height in all browsers */
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* Remove the margin in all browsers */
+body {
+    margin: 0;
+}
+
+/* Render the `main` element consistently in IE */
+main {
+    display: block;
+}
+
+/* Correct the font size and margin on `h1` elements */
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+/* Add the correct box sizing in Firefox */
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+
+/* Correct the inheritance and scaling of font size in all browsers */
+pre {
+    font-family: Roboto, monospace, monospace;
+    font-size: 1em;
+}
