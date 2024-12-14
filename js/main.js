@@ -57,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function () {
         cartItems += quantity;
         cartCount.textContent = cartItems;
         alert(`Added ${quantity} ${selectedColor} ${selectedSize} watch(es) to cart`);
+        console.log("clicked")
+        console.log(quantity)
+        console.log(cartCount.textContent)
     });
 
     wishlistBtn.addEventListener('click', function () {
