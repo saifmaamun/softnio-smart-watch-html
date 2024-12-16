@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Selectors
     const colorOptions = document.querySelectorAll('.color-option');
     const sizeOptions = document.querySelectorAll('.size-option');
     const quantityInput = document.getElementById('quantity');
@@ -7,68 +8,170 @@ document.addEventListener('DOMContentLoaded', function () {
     const addToCartBtn = document.querySelector('.add-to-cart-btn');
     const wishlistBtn = document.querySelector('.wishlist-btn');
     const cartCount = document.getElementById('cart-count');
+    const checkoutBtn = document.getElementById('checkout-btn');
 
+    // State
     let selectedColor = 'purple';
     let selectedSize = 'M';
     let quantity = 1;
-    let cartItems = 0;
+    let cartItems = [];
 
+    /** Initialize App State */
+    function initializeState() {
+        document.querySelector('[data-color="purple"]').classList.add('active');
+        document.querySelector('[data-size="M"]').classList.add('active');
+        updatePrice();
+    }
+
+    /** Update Price Based on Size */
     function updatePrice() {
         const selectedSizeBtn = document.querySelector('.size-option.active');
         const price = selectedSizeBtn ? selectedSizeBtn.dataset.price : 79;
         document.querySelector('.discounted-price').textContent = `$${price}`;
     }
 
-    colorOptions.forEach(option => {
-        option.addEventListener('click', function () {
-            colorOptions.forEach(opt => opt.classList.remove('active'));
-            this.classList.add('active');
-            selectedColor = this.dataset.color;
-        });
-    });
+    /** Handle Color Selection */
+    function handleColorSelection(event) {
+        colorOptions.forEach(option => option.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        selectedColor = event.currentTarget.dataset.color;
+    }
 
-    sizeOptions.forEach(option => {
-        option.addEventListener('click', function () {
-            sizeOptions.forEach(opt => opt.classList.remove('active'));
-            this.classList.add('active');
-            selectedSize = this.dataset.size;
-            updatePrice();
-        });
-    });
+    /** Handle Size Selection */
+    function handleSizeSelection(event) {
+        sizeOptions.forEach(option => option.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        selectedSize = event.currentTarget.dataset.size;
+        updatePrice();
+    }
 
-    decreaseBtn.addEventListener('click', function () {
-        if (quantity > 1) {
-            quantity--;
-            quantityInput.value = quantity;
-        }
-    });
-
-    increaseBtn.addEventListener('click', function () {
-        quantity++;
+    /** Handle Quantity Change */
+    function handleQuantityChange(change) {
+        quantity = Math.max(1, quantity + change);
         quantityInput.value = quantity;
-    });
+    }
 
-    quantityInput.addEventListener('change', function () {
-        quantity = parseInt(this.value) || 1;
-        this.value = quantity;
-    });
+    /** Handle Quantity Input Change */
+    function handleQuantityInputChange(event) {
+        quantity = parseInt(event.target.value) || 1;
+        event.target.value = quantity;
+    }
 
-    addToCartBtn.addEventListener('click', function () {
-        cartItems += quantity;
-        cartCount.textContent = cartItems;
+    /** Handle Add to Cart */
+    function handleAddToCart() {
+        const item = {
+            image: 'path/to/image.jpg',
+            color: selectedColor,
+            size: selectedSize,
+            quantity: quantity,
+            price: parseFloat(document.querySelector('.discounted-price').textContent.replace('$', ''))
+        };
+
+        cartItems.push(item);
+        // cartCount.textContent = cartItems.length;    // shows the number of cart items
+        cartCount.textContent = cartItems.reduce((total, item) => { return total + item.quantity }, 0);     // shows the total item in cart
         alert(`Added ${quantity} ${selectedColor} ${selectedSize} watch(es) to cart`);
-        console.log("clicked")
-        console.log(quantity)
-        console.log(cartCount.textContent)
-    });
+        console.log("Cart Items:", cartItems)
+    }
 
-    wishlistBtn.addEventListener('click', function () {
-        this.textContent = this.textContent === '♡' ? '♥' : '♡';
-        alert(this.textContent === '♥' ? 'Added to wishlist' : 'Removed from wishlist');
-    });
+    /** Handle Wishlist Toggle */
+    function handleWishlistToggle() {
+        const isWishlist = wishlistBtn.dataset.wishlist === 'true';
+        wishlistBtn.dataset.wishlist = isWishlist ? 'false' : 'true';
+        wishlistBtn.textContent = isWishlist ? '♡' : '♥';
+        alert(isWishlist ? 'Removed from wishlist' : 'Added to wishlist');
+    }
 
-    // Initialize active states
-    document.querySelector('.color-option[data-color="purple"]').classList.add('active');
-    document.querySelector('.size-option[data-size="M"]').classList.add('active');
-    updatePrice();
+    /** Handle Checkout */
+    function handleCheckout() {
+        openModal();
+    }
+
+    /** Render Modal HTML */
+    function renderModalHTML() {
+        const modalHTML = `
+        <div id="cart-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>Your Cart</h2>
+                <table id="cart-items">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Qnt</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="cart-total"></div>
+                <button id="close-modal">Close</button>
+            </div>
+        </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        document.getElementById('close-modal').addEventListener('click', closeModal);
+    }
+
+    /** Open Modal and Update Cart */
+    function openModal() {
+        updateModalCart();
+        document.getElementById('cart-modal').classList.add('show');
+    }
+
+    /** Close Modal */
+    function closeModal() {
+        document.getElementById('cart-modal').classList.remove('show');
+    }
+
+    /** Update Modal Cart Content */
+    function updateModalCart() {
+        const cartTableBody = document.querySelector('#cart-items tbody');
+        cartTableBody.innerHTML = ''; // Clear previous content
+
+        cartItems.forEach(item => {
+            const rowHTML = createCartRow(item);
+            cartTableBody.insertAdjacentHTML('beforeend', rowHTML);
+        });
+
+        updateCartTotal();
+    }
+
+    /** Create Cart Table Row */
+    function createCartRow(item) {
+        return `
+        <tr>
+            <td><img src="${item.image}" width="50" alt="Product Image"></td>
+            <td>${item.color}</td>
+            <td>${item.size}</td>
+            <td>${item.quantity}</td>
+            <td>$${(item.price * item.quantity).toFixed(2)}</td>
+        </tr>
+        `;
+    }
+
+    /** Calculate and Display Cart Total */
+    function updateCartTotal() {
+        const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        document.getElementById('cart-total').innerHTML = `<strong>Total:</strong> $${total.toFixed(2)}`;
+    }
+
+    /** Attach Event Listeners */
+    function attachEventListeners() {
+        colorOptions.forEach(option => option.addEventListener('click', handleColorSelection));
+        sizeOptions.forEach(option => option.addEventListener('click', handleSizeSelection));
+        decreaseBtn.addEventListener('click', () => handleQuantityChange(-1));
+        increaseBtn.addEventListener('click', () => handleQuantityChange(1));
+        quantityInput.addEventListener('change', handleQuantityInputChange);
+        addToCartBtn.addEventListener('click', handleAddToCart);
+        wishlistBtn.addEventListener('click', handleWishlistToggle);
+        checkoutBtn.addEventListener('click', handleCheckout);
+    }
+
+    /** Initialize App */
+    renderModalHTML();
+    initializeState();
+    attachEventListeners();
 });
