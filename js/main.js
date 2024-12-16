@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Selectors
+
+    const productName = document.getElementById('product-name');
     const colorOptions = document.querySelectorAll('.color-option');
     const sizeOptions = document.querySelectorAll('.size-option');
     const quantityInput = document.getElementById('quantity');
@@ -60,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function () {
     /** Handle Add to Cart */
     function handleAddToCart() {
         const item = {
-            image: 'path/to/image.jpg',
+            image: './assets/main-watch.png',
+            name: productName.innerHTML,
             color: selectedColor,
             size: selectedSize,
             quantity: quantity,
@@ -71,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // cartCount.textContent = cartItems.length;    // shows the number of cart items
         cartCount.textContent = cartItems.reduce((total, item) => { return total + item.quantity }, 0);     // shows the total item in cart
         alert(`Added ${quantity} ${selectedColor} ${selectedSize} watch(es) to cart`);
+        console.log(productName.innerHTML)
         console.log("Cart Items:", cartItems)
     }
 
@@ -143,7 +147,17 @@ document.addEventListener('DOMContentLoaded', function () {
     function createCartRow(item) {
         return `
         <tr>
-            <td><img src="${item.image}" width="50" alt="Product Image"></td>
+
+        
+        <td class="modal-td" >
+            <div>
+                <img src="${item.image}" width="50" alt="Product Image">
+            </div>
+            <div style="padding-right:48px">
+                <h3 >${item.name}</h3>
+            </div>
+        </td>
+        
             <td>${item.color}</td>
             <td>${item.size}</td>
             <td>${item.quantity}</td>
