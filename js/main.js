@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
         cartCount.textContent = cartItems.reduce((total, item) => { return total + item.quantity }, 0);     // shows the total item in cart
         alert(`Added ${quantity} ${selectedColor} ${selectedSize} watch(es) to cart`);
         console.log(productName.innerHTML)
-        console.log("Cart Items:", cartItems)
     }
 
     /** Handle Wishlist Toggle */
@@ -110,13 +109,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     <tbody></tbody>
                 </table>
                 <div id="cart-total"></div>
-                <button id="close-modal">Close</button>
+                <div class="checkout-btn">
+                <button id="continue">Continue Shopping</button>
+                <button id="checkout">Checkout</button>
+                </div>
             </div>
         </div>
         `;
         document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-        document.getElementById('close-modal').addEventListener('click', closeModal);
+        document.getElementById('continue').addEventListener('click', closeModal);
+        document.getElementById('checkout').addEventListener('click', function () {
+            const cartTableBody = document.querySelector('#cart-items tbody');
+            cartTableBody.innerHTML = '';
+            closeModal(),
+                cartItems = [];
+            updateCartTotal();
+            cartCount.textContent = "0"
+        });
     }
 
     /** Open Modal and Update Cart */

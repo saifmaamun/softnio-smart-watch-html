@@ -201,10 +201,19 @@ h1 {
 .checkout {
     padding: 10px 20px;
     background-color: #ffa500;
-    color: white;
+    color: var(--text-color);
+    font-weight: 700;
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    
+#cart-count{
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    color: var(--text-color);
+    background-color: #ffffff;
 }
 
 /* modal */
@@ -278,9 +287,28 @@ h1 {
     margin-top: 10px;
 }
 
-#close-modal {
-    display: block;
-    margin: 10px auto 0;
+.checkout-btn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    gap: 16px;
+    padding: 16px;
+}
+
+#continue {
+    /* display: block; */
+        margin: auto 10px;
+        background-color: transparent;
+        font-weight: 700;
+        color: var(--text-color);
+        border-color: var(--light-text-color);
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+}
+#checkout {
+    /* display: block; */
+    margin: auto 10px;
     background-color: var(--primary-color);
     color: white;
     border: none;
