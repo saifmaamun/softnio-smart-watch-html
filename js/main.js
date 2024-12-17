@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Selectors
 
     const productName = document.getElementById('product-name');
+    const productImage = document.getElementById('product-image');
     const colorOptions = document.querySelectorAll('.color-option');
     const sizeOptions = document.querySelectorAll('.size-option');
     const quantityInput = document.getElementById('quantity');
@@ -37,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
         colorOptions.forEach(option => option.classList.remove('active'));
         event.currentTarget.classList.add('active');
         selectedColor = event.currentTarget.dataset.color;
+        /** handle item image change */
+        productImage.src = `assets/${selectedColor}.png`
+        console.log(selectedColor, productImage.src)
     }
 
     /** Handle Size Selection */
@@ -62,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /** Handle Add to Cart */
     function handleAddToCart() {
         const item = {
-            image: './assets/main-watch.png',
+            image: productImage.src,
             name: productName.innerHTML,
             color: selectedColor,
             size: selectedSize,
