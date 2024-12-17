@@ -261,11 +261,9 @@ h1 {
 }
 
 
-/* tr  */
-
-
-
-/* tr  */
+.model-font{
+    font-weight: 700;
+}
 
 
 #cart-items th,

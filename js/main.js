@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /** Update Modal Cart Content */
     function updateModalCart() {
         const cartTableBody = document.querySelector('#cart-items tbody');
-        cartTableBody.innerHTML = ''; // Clear previous content
+        cartTableBody.innerHTML = '';
 
         cartItems.forEach(item => {
             const rowHTML = createCartRow(item);
@@ -168,14 +168,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 <img src="${item.image}" width="50" alt="Product Image">
             </div>
             <div style="padding-right:48px">
-                <h3 >${item.name}</h3>
+                <p >${item.name}</p>
             </div>
         </td>
         
-            <td>${item.color}</td>
-            <td>${item.size}</td>
-            <td>${item.quantity}</td>
-            <td>$${(item.price * item.quantity).toFixed(2)}</td>
+            <td>${item.color[0].toUpperCase() + item.color.slice(1)}</td>
+            
+            <td class="model-font">${item.size}</td>
+            <td class="model-font">${item.quantity}</td>
+            <td class="model-font">$${(item.price * item.quantity).toFixed(2)}</td>
+            
         </tr>
         `;
     }
@@ -183,7 +185,24 @@ document.addEventListener('DOMContentLoaded', function () {
     /** Calculate and Display Cart Total */
     function updateCartTotal() {
         const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        document.getElementById('cart-total').innerHTML = `<strong>Total:</strong> $${total.toFixed(2)}`;
+        const totalItem = cartItems.reduce((total, item) => { return total + item.quantity }, 0);
+        document.getElementById('cart-total').innerHTML = ` <div style="display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 0;">
+    <!-- First Section: Total -->
+    <div style="flex: 3; text-align: left; padding-left: 10px;">
+        <h5>Total</h5>
+    </div>
+
+    <!-- Second Section: Total Items -->
+    <div style="flex: 1; text-align: right;">
+        <h5>${totalItem}</h5>
+    </div>
+
+    <!-- Third Section: Total Price -->
+    <div style="flex: 2; display: flex; align-items: center; justify-content: center;">
+        <h2>$${total.toFixed(2)}</h2>
+    </div>
+</div>`;
+        // document.getElementById('cart-total').innerHTML = `<strong>Total:</strong> $${total.toFixed(2)}`;
     }
 
     /** Attach Event Listeners */
