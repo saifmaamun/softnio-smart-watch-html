@@ -20,31 +20,33 @@ document.addEventListener('DOMContentLoaded', function () {
     let cartItems = [];
 
     /** Initialize App State */
-    function initializeState() {
+    const initializeState = () => {
         document.querySelector('[data-color="purple"]').classList.add('active');
         document.querySelector('[data-size="M"]').classList.add('active');
         updatePrice();
     }
 
     /** Update Price Based on Size */
-    function updatePrice() {
+    const updatePrice = () => {
         const selectedSizeBtn = document.querySelector('.size-option.active');
         const price = selectedSizeBtn ? selectedSizeBtn.dataset.price : 79;
         document.querySelector('.discounted-price').textContent = `$${price}`;
+        document.querySelector('.original-price').textContent = `$${parseInt(price) + 20}`;
+        // console.log(parseInt(price) + 20)
     }
 
     /** Handle Color Selection */
-    function handleColorSelection(event) {
+    const handleColorSelection = (event) => {
         colorOptions.forEach(option => option.classList.remove('active'));
         event.currentTarget.classList.add('active');
         selectedColor = event.currentTarget.dataset.color;
         /** handle item image change */
         productImage.src = `assets/${selectedColor}.png`
-        console.log(selectedColor, productImage.src)
+        // console.log(selectedColor, productImage.src)
     }
 
     /** Handle Size Selection */
-    function handleSizeSelection(event) {
+    const handleSizeSelection = (event) => {
         sizeOptions.forEach(option => option.classList.remove('active'));
         event.currentTarget.classList.add('active');
         selectedSize = event.currentTarget.dataset.size;
@@ -52,19 +54,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /** Handle Quantity Change */
-    function handleQuantityChange(change) {
+    const handleQuantityChange = (change) => {
         quantity = Math.max(1, quantity + change);
         quantityInput.value = quantity;
     }
 
     /** Handle Quantity Input Change */
-    function handleQuantityInputChange(event) {
+    const handleQuantityInputChange = (event) => {
         quantity = parseInt(event.target.value) || 1;
         event.target.value = quantity;
     }
 
     /** Handle Add to Cart */
-    function handleAddToCart() {
+    const handleAddToCart = () => {
         const item = {
             image: productImage.src,
             name: productName.innerHTML,
@@ -78,11 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // cartCount.textContent = cartItems.length;    // shows the number of cart items
         cartCount.textContent = cartItems.reduce((total, item) => { return total + item.quantity }, 0);     // shows the total item in cart
         alert(`Added ${quantity} ${selectedColor} ${selectedSize} watch(es) to cart`);
-        console.log(productName.innerHTML)
+        // console.log(productName.innerHTML)
     }
 
     /** Handle Wishlist Toggle */
-    function handleWishlistToggle() {
+    const handleWishlistToggle = () => {
         const isWishlist = wishlistBtn.dataset.wishlist === 'true';
         wishlistBtn.dataset.wishlist = isWishlist ? 'false' : 'true';
         wishlistBtn.textContent = isWishlist ? '♡' : '♥';
@@ -90,12 +92,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /** Handle Checkout */
-    function handleCheckout() {
+    const handleCheckout = () => {
         openModal();
     }
 
     /** Render Modal HTML */
-    function renderModalHTML() {
+    const renderModalHTML = () => {
         const modalHTML = `
         <div id="cart-modal" class="modal-overlay">
             <div class="modal-content">
@@ -134,18 +136,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /** Open Modal and Update Cart */
-    function openModal() {
+    const openModal = () => {
         updateModalCart();
         document.getElementById('cart-modal').classList.add('show');
     }
 
     /** Close Modal */
-    function closeModal() {
+    const closeModal = () => {
         document.getElementById('cart-modal').classList.remove('show');
     }
 
     /** Update Modal Cart Content */
-    function updateModalCart() {
+    const updateModalCart = () => {
         const cartTableBody = document.querySelector('#cart-items tbody');
         cartTableBody.innerHTML = '';
 
@@ -158,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /** Create Cart Table Row */
-    function createCartRow(item) {
+    const createCartRow = (item) => {
         return `
         <tr>
 
@@ -183,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /** Calculate and Display Cart Total */
-    function updateCartTotal() {
+    const updateCartTotal = () => {
         const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const totalItem = cartItems.reduce((total, item) => { return total + item.quantity }, 0);
         document.getElementById('cart-total').innerHTML = ` <div style="display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 0;">
@@ -206,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /** Attach Event Listeners */
-    function attachEventListeners() {
+    const attachEventListeners = () => {
         colorOptions.forEach(option => option.addEventListener('click', handleColorSelection));
         sizeOptions.forEach(option => option.addEventListener('click', handleSizeSelection));
         decreaseBtn.addEventListener('click', () => handleQuantityChange(-1));
